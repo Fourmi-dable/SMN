@@ -1,3 +1,44 @@
 .title {
   color: #99E3BA;
 }
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 110px;
+  height: 110px;
+  border: 8px solid lightblue;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px 1px #2D7393;
+}
+
+.avatar-container img {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #7bb3cc;
+}
+
+.main-container {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.window-body {
+  background: linear-gradient(0deg, rgba(187, 225, 250, 1) 0%, rgba(251, 253, 255, 1) 41%, rgba(219, 247, 255, 1) 100%) !important;
+}
+
+.group {
+  width: 200px;
+}
+
+.status-select {
+  align-self: start;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}

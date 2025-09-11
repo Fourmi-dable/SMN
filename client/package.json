@@ -11,6 +11,7 @@
     "test": "echo \"Error: no client test specified\""
   },
   "dependencies": {
+    "7.css": "^0.21.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "socket.io-client": "^4.8.1"
