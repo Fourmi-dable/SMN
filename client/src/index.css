@@ -21,7 +21,7 @@ h1 {
   line-height: 1.1;
 }
 
-button.blue-bg,
+button.blue-bg:not(:disabled),
 select {
   background: linear-gradient(0deg, rgba(187, 225, 250, 1) 0%, rgba(251, 253, 255, 1) 41%, rgba(219, 247, 255, 1) 100%) !important;
   color: #234079 !important;

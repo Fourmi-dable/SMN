@@ -2,7 +2,7 @@ import { avatars } from "../avatars";
 
 type AvatarListProps = {
     setAvatarListOpen: (open: boolean) => void;
-    setSelectedAvatar: (avatar: string) => void;
+    setSelectedAvatar: (avatar: number) => void;
 };
 
 export const AvatarList: React.FC<AvatarListProps> = ({ setAvatarListOpen, setSelectedAvatar }) => {
@@ -22,7 +22,7 @@ export const AvatarList: React.FC<AvatarListProps> = ({ setAvatarListOpen, setSe
                         src={src}
                         alt="avatar-image"
                         key={id}
-                        onClick={() => { setSelectedAvatar(avatars[id]); setAvatarListOpen(false) }}
+                        onClick={() => { setSelectedAvatar(id); setAvatarListOpen(false) }}
                     />
                 ))}
             </div>
