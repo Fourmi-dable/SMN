@@ -35,8 +35,8 @@
   justify-content: center;
   align-content: center;
   box-shadow: 1px 1px 10px 1px #2D7393;
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 10px;
   align-items: center;
   background: linear-gradient(311deg, rgba(0, 207, 34, 1) 0%, rgba(219, 255, 219, 1) 73%);
@@ -57,7 +57,6 @@
 
 .main-container {
   width: 500px;
-  height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;

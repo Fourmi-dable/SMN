@@ -11,13 +11,15 @@ import dog from "./assets/dog.jpg";
 import drip from "./assets/drip.jpg";
 import duck from "./assets/duck.jpg";
 import fish from "./assets/fish.jpg";
-import guest from "./assets/guest.jpg";
+import dog2 from "./assets/dog2.jpg";
 import guitar from "./assets/guitar.jpg";
 import kick from "./assets/kick.jpg";
 import liftoff from "./assets/lift-off.jpg";
 import snowflake from "./assets/snowflake.jpg";
+import skateboard from "./assets/skateboard.jpg";
+import fish2 from "./assets/fish2.jpg";
 
 export const avatars = [
     butterfly, flower, frog, football, plage, airplane, astronaut, chess,
-    car, dog, drip, duck, fish, guest, guitar, kick, liftoff, snowflake
+    car, dog, drip, duck, fish, dog2, guitar, kick, liftoff, snowflake, skateboard, fish2
 ];
