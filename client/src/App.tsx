@@ -4,6 +4,7 @@ import "7.css/dist/7.css";
 import { useEffect, useState } from "react";
 import { avatars } from "./avatars";
 import { AvatarList } from "./components/AvatarList";
+import logo from "./assets/logo.png";
 
 function App() {
   const [avatarListOpen, setAvatarListOpen] = useState(false);
@@ -59,8 +60,12 @@ function App() {
 
   return (
     <div className="container">
+      <div className="header">
+        <img src={logo} alt="Logo" />
+        SMN Messenger
+      </div>
       <form className="main-container" onSubmit={onSubmit}>
-        <div className="avatar-container">
+        <div className={`avatar-container ${onlineStatus === 0 ? 'online' : onlineStatus === 1 ? 'busy' : 'away'}`}>
           <img src={avatars[selectedAvatar]} alt="Logo" />
         </div>
         <button
