@@ -2,6 +2,8 @@
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
+
+  font-family: "Segoe UI", SegoeUI, "Noto Sans", sans-serif;
 }
 
 body {
@@ -10,10 +12,45 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #37A4A7;
+  background: #8AD5F5;
+  background: linear-gradient(180deg, rgba(138, 213, 245, 1) 0%, rgba(251, 253, 255, 1) 50%, rgba(215, 253, 255, 1) 100%);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+button.blue-bg:not(:disabled),
+select {
+  background: linear-gradient(0deg, rgba(187, 225, 250, 1) 0%, rgba(251, 253, 255, 1) 41%, rgba(219, 247, 255, 1) 100%) !important;
+  color: #234079 !important;
+}
+
+input,
+button.blue-bg:not(.btn-small) {
+  font-size: 16px !important;
+}
+
+button.blue-bg:not(.btn-small),
+input {
+  height: 40px !important;
+  border-radius: 6px !important;
+}
+
+button.blue-bg,
+select,
+input {
+  border-color: #8AD5F5 !important;
+  border-radius: 4px !important;
+}
+
+label {
+  color: #0d388f;
+  font-size: 16px !important;
+  text-align: start;
+}
+
+input {
+  padding: 4px 8px 5px !important;
 }
