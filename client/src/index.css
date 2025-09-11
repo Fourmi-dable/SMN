@@ -2,6 +2,8 @@
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
+
+  font-family: "Segoe UI", SegoeUI, "Noto Sans", sans-serif;
 }
 
 body {
@@ -23,13 +25,16 @@ button.blue-bg,
 select {
   background: linear-gradient(0deg, rgba(187, 225, 250, 1) 0%, rgba(251, 253, 255, 1) 41%, rgba(219, 247, 255, 1) 100%) !important;
   color: #234079 !important;
-  font-size: 13px !important;
+}
 
+input,
+button.blue-bg:not(.btn-small) {
+  font-size: 16px !important;
 }
 
 button.blue-bg:not(.btn-small),
 input {
-  height: 30px !important;
+  height: 40px !important;
   border-radius: 6px !important;
 }
 
@@ -42,6 +47,10 @@ input {
 
 label {
   color: #0d388f;
-  font-size: 13px !important;
+  font-size: 16px !important;
   text-align: start;
+}
+
+input {
+  padding: 4px 8px 5px !important;
 }
