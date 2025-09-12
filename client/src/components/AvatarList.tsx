@@ -57,14 +57,19 @@ export const AvatarList: React.FC<AvatarListProps> = ({ setAvatarListOpen, setSe
             </div>
             <div className="window-body has-space avatar-list">
                 {avatars.map((src, id) => (
-                    <img
-                        src={src}
-                        alt="avatar-image"
+                    <button
                         key={id}
                         onClick={() => { setSelectedAvatar(id); setAvatarListOpen(false) }}
-                    />
+                        autoFocus={id === 0}
+                        aria-label={"Select avatar " + id}
+                    >
+                        < img
+                            src={src}
+                            alt={"avatar-image-" + id}
+                        />
+                    </button>
                 ))}
             </div>
-        </div>
+        </div >
     );
 };
