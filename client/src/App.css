@@ -105,3 +105,16 @@
 .avatar-list img:hover {
   opacity: 0.8;
 }
+
+.avatar-list-container {
+  max-width: 500px;
+  position: absolute !important;
+  top: 15%;
+}
+
+@media screen and (max-width: 600px) {
+  .avatar-list-container {
+    top: 10%;
+    left: 0;
+  }
+}
