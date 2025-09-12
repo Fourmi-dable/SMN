@@ -26,8 +26,12 @@ import ipod from "./assets/ipod.jpeg";
 import paint from "./assets/paint.jpeg";
 import phone from "./assets/phone.jpeg";
 import emo from "./assets/emo.jpeg";
+import emo2 from "./assets/emo2.jpeg";
+import ipod2 from "./assets/ipod2.jpeg";
+import slay from "./assets/slay.jpeg";
+import cat from "./assets/cat.jpeg";
 
 export const avatars = [
     pinkuser, blueuser, greenuser, yellowuser, ipod, paint, phone, butterfly, flower, frog, football, plage, airplane, astronaut, chess,
-    car, dog, drip, duck, fish, dog2, guitar, kick, liftoff, snowflake, skateboard, fish2, emo
+    car, dog, drip, duck, fish, dog2, guitar, kick, liftoff, snowflake, skateboard, fish2, emo, emo2, ipod2, slay, cat
 ];
