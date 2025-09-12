@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { avatars } from "../assets/avatars";
 import { AvatarList } from "../components/AvatarList";
+import { Avatar } from "../components/Avatar";
+import type { UserDatas } from "../types";
 
 type LoginProps = {
-    logUser: (loggedIn: boolean) => void;
+    logUser: (userData: UserDatas) => void;
 };
 
 export const Login: React.FC<LoginProps> = ({ logUser }) => {
@@ -52,15 +53,13 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
         };
 
         localStorage.setItem("SMN-DATA", JSON.stringify(userData));
-        logUser(true);
+        logUser(userData);
     }
 
     return (
         <>
             <form className="main-container" onSubmit={onSubmit}>
-                <div className={`avatar-container ${onlineStatus === 0 ? 'online' : onlineStatus === 1 ? 'busy' : 'away'}`}>
-                    <img src={avatars[selectedAvatar]} alt="Logo" />
-                </div>
+                <Avatar onlineStatus={onlineStatus} selectedAvatar={selectedAvatar} size="large" />
                 <button
                     className="blue-bg btn-small"
                     type="button"

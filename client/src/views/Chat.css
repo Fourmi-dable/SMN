@@ -1,0 +1,226 @@
+.chat-view {
+    display: flex;
+    gap: 10px;
+    background-image: url("../assets/frutiger-wallpaper.jpeg");
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.conversation-container {
+    display: flex;
+    gap: 10px;
+    height: 100%
+}
+
+.chat-window {
+    width: 350px;
+}
+
+.conversation .window-body {
+    background: #d7f8ff61 !important;
+    height: 600px;
+}
+
+.conversation-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+.conversation-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-input-container {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 25px;
+    gap: 0;
+    border: 1px solid #343C8F;
+    background-color: white
+}
+
+.chat-input {
+    justify-content: end;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%
+}
+
+.chat-window .title-bar-text {
+    color: #343C8F;
+
+    display: flex;
+    align-items: center;
+}
+
+.chat-window .title-bar-text img {
+    width: 27px;
+    height: 20px;
+}
+
+.chat-window .title-bar-text span {
+    font-weight: bold;
+}
+
+.chat-window .window-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-window.conversation {
+    width: 60%;
+    max-width: 1200px;
+    position: absolute;
+    right: 10%;
+    top: 60px;
+}
+
+.user-infos-container {
+    display: flex;
+    gap: 20px;
+    padding: 8px;
+}
+
+.user-infos {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 4px;
+}
+
+.info {
+    font-size: 24px;
+    color: #343C8F;
+}
+
+.info.small {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.section-title {
+    font-size: 16px;
+    color: #343C8F;
+    font-weight: 300;
+    padding: 8px;
+}
+
+.chat-sections-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: start;
+}
+
+.messages-container {
+    flex: 2;
+    border: 1px solid #343C8F;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    border-radius: 25px;
+    background-color: white;
+}
+
+.chat-input {
+    height: 78% !important;
+}
+
+.chat-input-container .chat-input textarea {
+    width: 100% !important;
+    align-self: start;
+    height: 100%;
+    border-radius: 0 0 25px 25px !important;
+    border: none;
+    resize: none;
+    font-size: 20px;
+    padding: 16px;
+    font-family: monospace;
+    color: #62dbff;
+}
+
+.chat-input-container button {
+    background: linear-gradient(147deg, rgba(255, 255, 255, 1) 0%, rgba(174, 217, 255, 1) 100%) !important;
+    color: #343C8F;
+    border: 1px solid #343C8F !important;
+    margin-right: 16px;
+    width: 180px;
+    height: 80px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+.container-header {
+    max-height: 40px;
+    height: 100%;
+    background-color: blue;
+    border-radius: 25px 25px 0 0;
+    background: linear-gradient(0deg, rgba(182, 216, 255, 1) 5%, rgba(255, 255, 255, 1) 30%, rgba(83, 209, 255, 1) 100%);
+    border-bottom: 1px solid #343C8F;
+
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+
+    color: #343C8F;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.container-header span {
+    font-weight: 800;
+    margin-left: 4px;
+}
+
+.container-header button {
+    height: 100%;
+    width: 40px !important;
+    min-width: inherit;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    transition: none !important;
+    border: none !important;
+
+    background: linear-gradient(0deg, rgba(182, 216, 255, 1) 5%, rgba(255, 255, 255, 1) 30%, rgba(83, 209, 255, 1) 100%) !important;
+    font-size: 24px;
+}
+
+.container-header button:hover {
+    transition: none !important;
+    box-shadow: none !important;
+
+}
+
+.conversation-container {
+    padding: 4px 8px;
+}
+
+@media screen and (max-width: 900px) {
+    .chat-window.conversation {
+        display: none;
+    }
+
+    .chat-window:not(.conversation) {
+        width: 95%;
+        max-width: none;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .chat-window.conversation {
+        right: 4%;
+
+    }
+}
