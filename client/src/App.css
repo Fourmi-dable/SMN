@@ -51,8 +51,9 @@
 }
 
 .avatar-container img {
-  width: 85%;
-  height: 85%;
+  width: 88%;
+  height: 88%;
+  border: 1px solid #aaaaaa;
 }
 
 .main-container {
@@ -65,6 +66,8 @@
 }
 
 .window-body {
+  height: 500px;
+  overflow: scroll;
   background: linear-gradient(0deg, rgba(187, 225, 250, 1) 0%, rgba(251, 253, 255, 1) 41%, rgba(219, 247, 255, 1) 100%) !important;
 }
 

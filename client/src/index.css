@@ -54,3 +54,7 @@ label {
 input {
   padding: 4px 8px 5px !important;
 }
+
+select {
+  padding: 2px !important;
+}

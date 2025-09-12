@@ -18,8 +18,16 @@ import liftoff from "./assets/lift-off.jpg";
 import snowflake from "./assets/snowflake.jpg";
 import skateboard from "./assets/skateboard.jpg";
 import fish2 from "./assets/fish2.jpg";
+import pinkuser from "./assets/pinkuser.jpeg";
+import blueuser from "./assets/blueuser.jpeg";
+import greenuser from "./assets/greenuser.jpeg";
+import yellowuser from "./assets/yellowuser.jpeg";
+import ipod from "./assets/ipod.jpeg";
+import paint from "./assets/paint.jpeg";
+import phone from "./assets/phone.jpeg";
+import emo from "./assets/emo.jpeg";
 
 export const avatars = [
-    butterfly, flower, frog, football, plage, airplane, astronaut, chess,
-    car, dog, drip, duck, fish, dog2, guitar, kick, liftoff, snowflake, skateboard, fish2
+    pinkuser, blueuser, greenuser, yellowuser, ipod, paint, phone, butterfly, flower, frog, football, plage, airplane, astronaut, chess,
+    car, dog, drip, duck, fish, dog2, guitar, kick, liftoff, snowflake, skateboard, fish2, emo
 ];
