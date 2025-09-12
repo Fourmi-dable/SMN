@@ -1,5 +1,5 @@
 import React from "react";
-import { avatars } from "../avatars";
+import { avatars } from "../assets/avatars";
 
 type AvatarListProps = {
     setAvatarListOpen: (open: boolean) => void;
