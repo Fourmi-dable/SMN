@@ -78,7 +78,7 @@
 
 .chat-window.conversation {
     width: 60%;
-    max-width: 1200px;
+    max-width: 900px;
     position: absolute;
     right: 10%;
     top: 60px;
