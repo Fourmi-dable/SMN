@@ -4,12 +4,14 @@ import type { UserDatas } from "../types";
 import logo from "../assets/logo.png";
 import "./Chat.css";
 import { DraggableWindow } from "../components/DraggableWindow";
+import type { ConnectedUser } from "../types/types";
 
 type ChatProps = {
     userData: UserDatas;
+    connectedUserList: ConnectedUser[] | null;
 };
 
-export const Chat: React.FC<ChatProps> = ({ userData }) => {
+export const Chat: React.FC<ChatProps> = ({ userData, connectedUserList }) => {
     const { username, status, onlineStatus, selectedAvatar } = userData;
 
     return (
@@ -50,10 +52,28 @@ export const Chat: React.FC<ChatProps> = ({ userData }) => {
                     <div className="chat-sections-container" >
                         <div className="section-title">Discussions en cours (0)</div>
                         <div className="section-title">Salons Publics (0)</div>
-                        <div className="section-title">Utilisateurs connectés (0)</div>
+                        <section>
+                            <div className="section-title">Utilisateurs connectés ({connectedUserList ? connectedUserList.length : 0})</div>
+                            <div className="section-content">
+                                {connectedUserList && connectedUserList.map((user, id) =>
+                                    <div className="section-user-connected" key={id}>
+                                        <div className="section-user-status">
+                                            {user.onlineStatus === 0
+                                                ? "🟢"
+                                                : user.onlineStatus === 1
+                                                    ? "🔴"
+                                                    : "🟠"
+                                            }
+                                        </div>
+                                        <p>{user.username} -</p>
+                                        <p className="section-user-bio">{user.status}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </section>
                     </div>
                     <div className="separation-line" />
-                </div>
+                </div >
             </DraggableWindow >
             <DraggableWindow
                 className="window glass active chat-window conversation"

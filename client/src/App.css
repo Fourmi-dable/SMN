@@ -13,7 +13,7 @@
   left: 0;
   display: flex;
   align-items: center;
-  background: linear-gradient(180deg, rgb(183 213 255) 10%, rgb(64 141 183) 51%, rgb(153 215 246) 82%, rgba(29, 155, 194, 1) 100%);
+  background: linear-gradient(180deg, rgba(183, 242, 255, 0.418) 10%, rgba(64, 153, 183, 0.578) 51%, rgba(40, 255, 237, 0.528) 82%, rgba(29, 183, 194, 0.359) 100%);
   align-content: center;
   text-align: left;
   color: white;
@@ -21,6 +21,17 @@
   font-size: 16px !important;
 
   box-shadow: 0px 0px 7px 1px #1C4D90;
+}
+
+.header button {
+  border: none !important;
+  height: 100%;
+  margin-left: 12px;
+  background: transparent;
+  color: white;
+  border: none !important;
+  box-shadow: none;
+  font-size: 14px
 }
 
 .header img {

@@ -122,6 +122,34 @@
     align-items: start;
 }
 
+.chat-sections-container section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.section-content {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.section-user-connected {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.section-user-status {
+    font-size: 6px;
+    margin-right: 4px;
+}
+
+.section-user-bio {
+    font-size: 13px;
+}
+
 .messages-container {
     flex: 2;
     border: 1px solid #343C8F;

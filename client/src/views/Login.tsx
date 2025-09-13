@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AvatarList } from "../components/AvatarList";
 import { Avatar } from "../components/Avatar";
 import type { UserDatas } from "../types";
+import { v4 as uuidv4 } from 'uuid';
 
 type LoginProps = {
     logUser: (userData: UserDatas) => void;
@@ -46,6 +47,7 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
         }
 
         const userData = {
+            uuid: uuidv4(),
             username: username.trim(),
             status: status.trim(),
             onlineStatus: onlineStatus || 0,
