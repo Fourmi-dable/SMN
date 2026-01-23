@@ -5,6 +5,7 @@ type ConnectedUser = {
     onlineStatus: 0 | 1 | 2;
     avatar: number;
     status: string;
+    color: string;
 }
 
 export type { ConnectedUser };

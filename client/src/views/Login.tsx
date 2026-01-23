@@ -51,7 +51,8 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
             username: username.trim(),
             status: status.trim(),
             onlineStatus: onlineStatus || 0,
-            selectedAvatar: selectedAvatar || 0
+            selectedAvatar: selectedAvatar || 0,
+            color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`
         };
 
         localStorage.setItem("SMN-DATA", JSON.stringify(userData));

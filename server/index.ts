@@ -7,12 +7,13 @@ const app = express();
 const server = http.createServer(app);
 
 type User = {
-    uuid: string; // Ne change pas: pour pouvoir retrouver ses infos si il recharge la page
+    uuid: string;
     socketId: string;
     username: string,
     onlineStatus: 0 | 1 | 2;
     avatar: number;
     status: string;
+    color: string;
 }
 
 const io = new Server(server, {
@@ -26,17 +27,36 @@ const userList: User[] = [];
 
 io.on('connection', (socket) => {
     console.log('Utilisateur connecté à socket io:', socket.id);
+    console.log('Liste des utilisateurs connectés:', userList);
 
     socket.on('login', (userData) => {
-        const { uuid, username, onlineStatus, selectedAvatar, status } = userData;
+        const { uuid, username, onlineStatus, selectedAvatar, status, color } = userData;
         console.log('login reçu coté serveur, datas:', userData);
         const userExists = userList.find((user) => user.uuid === uuid);
         if (userExists) {
             userExists.socketId = socket.id;
         } else {
-            userList.push({ uuid, socketId: socket.id, username, onlineStatus, avatar: selectedAvatar, status });
+            userList.push({ uuid, socketId: socket.id, username, onlineStatus, avatar: selectedAvatar, status, color });
         }
+        socket.join("public-room");
         io.emit('connectedUsersList', userList);
+        io.to("public-room").emit('message-public-room', { from: 'system', content: `${username} a rejoint le chat!`, timestamp: new Date().toISOString() });
+    });
+
+    socket.on('message-public-room', (message) => {
+        console.log('Message reçu pour la public-room:', message);
+        io.to("public-room").emit('message-public-room', message);
+    });
+
+    socket.on('message-private', (data) => {
+        const { to } = data;
+        console.log('Message privé reçu:', data);
+        const toUser = userList.find(user => user.uuid === to);
+        if (toUser) {
+            console.log(`Envoi du message privé à ${toUser.username} (${toUser.socketId})`);
+            io.to(toUser.socketId).emit('message-private', data);
+            io.to(socket.id).emit('message-private', data);
+        }
     });
 
     socket.on('disconnect', () => {

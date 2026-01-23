@@ -23,6 +23,10 @@
     height: 600px;
 }
 
+.window-body {
+    overflow: hidden;
+}
+
 .conversation-left {
     flex: 1;
     display: flex;
@@ -207,9 +211,15 @@
     flex: 2;
     border: 1px solid #343C8F;
     margin-bottom: 10px;
-    overflow-y: auto;
     border-radius: 25px;
     background-color: white;
+}
+
+.messages-content {
+    text-align: left;
+    padding: 8px;
+    overflow-y: auto;
+    height: 325px;
 }
 
 .chat-input {
@@ -226,7 +236,6 @@
     font-size: 20px;
     padding: 16px;
     font-family: monospace;
-    color: #62dbff;
 }
 
 .chat-input-container button {
@@ -286,6 +295,32 @@
 
 .conversation-container {
     padding: 4px 8px;
+}
+
+@keyframes horizontal-shaking {
+    0% {
+        transform: translateX(0)
+    }
+
+    25% {
+        transform: translateX(5px)
+    }
+
+    50% {
+        transform: translateX(-5px)
+    }
+
+    75% {
+        transform: translateX(5px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+
+.wizz-animation {
+    animation: horizontal-shaking 0.2s ease-in-out infinite;
 }
 
 @media screen and (max-width: 900px) {

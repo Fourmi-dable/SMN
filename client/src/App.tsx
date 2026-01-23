@@ -10,14 +10,17 @@ import type { ConnectedUser } from './types/types.ts';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState<{ username: string, status: string, onlineStatus: number, selectedAvatar: number } | null>(null);
+  const [userData, setUserData] = useState<{ username: string, status: string, onlineStatus: number, selectedAvatar: number, color: string } | null>();
   const [connectedUserList, setConnectedUserList] = useState<ConnectedUser[] | null>(null);
+
+  console.log("connectedUserList:", connectedUserList);
 
   const isValidData = (data: any) => {
     if (!data.username || !data.username.trim() || data.username.trim().length > 30 || data.username.trim().length < 2) return false;
     if (data.onlineStatus < 0 || data.onlineStatus > 2) data.onlineStatus = 0;
     if (data.selectedAvatar < 0 || data.selectedAvatar >= 36) data.selectedAvatar = 0;
     if (!data.status) data.status = "";
+    if (!data.color) data.color = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
     return true;
   }
 

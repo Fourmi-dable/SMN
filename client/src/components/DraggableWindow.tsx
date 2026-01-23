@@ -7,6 +7,7 @@ type DraggableWindowProps = {
     initialPosition?: { left: number; top: number };
     className?: string;
     style?: React.CSSProperties;
+    ref?: React.Ref<HTMLDivElement>;
 };
 
 export const DraggableWindow: React.FC<DraggableWindowProps> = ({
@@ -14,6 +15,7 @@ export const DraggableWindow: React.FC<DraggableWindowProps> = ({
     initialPosition = { left: 20, top: 20 },
     className = "",
     style = {},
+    ref,
 }) => {
     const [position, setPosition] = useState<{ left: number; top: number }>(initialPosition);
     const [zIndex, setZIndex] = useState(zIndexCounter);
@@ -68,6 +70,7 @@ export const DraggableWindow: React.FC<DraggableWindowProps> = ({
                 left: position.left,
                 top: position.top,
             }}
+            ref={ref}
         >
             {React.Children.map(children, (child) =>
                 React.isValidElement(child) && (child as { props: { className?: string } }).props.className?.includes("title-bar")
