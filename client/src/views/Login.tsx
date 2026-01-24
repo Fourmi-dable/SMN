@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { AvatarList } from "../components/AvatarList";
 import { Avatar } from "../components/Avatar";
-import type { UserDatas } from "../types";
+import type { UserDatas } from "../types/types";
 import { v4 as uuidv4 } from 'uuid';
+import StatusSelect from "../components/StatusSelect";
+import LoginInput from "../components/LoginInput";
+import { isValidUsername } from "../utils";
 
 type LoginProps = {
     logUser: (userData: UserDatas) => void;
@@ -18,11 +21,11 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
     useEffect(() => {
         const savedData = localStorage.getItem("SMN-DATA");
         if (savedData) {
-            const { username, status, onlineStatus, selectedAvatar } = JSON.parse(savedData);
-            setUsername(username);
-            setStatus(status);
-            setOnlineStatus(onlineStatus);
-            setSelectedAvatar(selectedAvatar);
+            const data = JSON.parse(savedData);
+            setUsername(data.username);
+            setStatus(data.status);
+            setOnlineStatus(data.onlineStatus);
+            setSelectedAvatar(data.selectedAvatar);
         }
     }, []);
 
@@ -34,15 +37,12 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
         setStatus(e.target.value);
     }
 
-    const onOnlineStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setOnlineStatus(Number(e.target.value));
-    }
-
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!username.trim() || username.trim().length > 30 || username.trim().length < 2) {
-            alert("Veuillez entrer un pseudo valide");
+        if (!isValidUsername(username)) {
+            alert(`Le pseudo ne doit contenir que des lettres, des chiffres ou des
+                 underscores(_),et doit faire entre 3 et 20 caractères.`);
             return;
         }
 
@@ -62,7 +62,11 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
     return (
         <>
             <form className="main-container" onSubmit={onSubmit}>
-                <Avatar onlineStatus={onlineStatus} selectedAvatar={selectedAvatar} size="large" />
+                <Avatar
+                    onlineStatus={onlineStatus}
+                    selectedAvatar={selectedAvatar}
+                    size="large"
+                />
                 <button
                     className="blue-bg btn-small"
                     type="button"
@@ -71,23 +75,24 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
                     Changer
                 </button>
                 <div className="group">
-                    <div className="input-container">
-                        <label htmlFor="username">Pseudo:</label>
-                        <input type="text" id="username" placeholder="Pseudo" value={username} onChange={onUsernameChange} />
-                    </div>
-                    <div className="input-container">
-                        <label htmlFor="status">Statut:</label>
-                        <input type="text" id="status" placeholder="Statut" value={status} onChange={onStatusChange} />
-                    </div>
-                    <div className="status-select">
-                        <label htmlFor="online">Etat:</label>
-                        <select id="online" value={onlineStatus} onChange={onOnlineStatusChange}>
-                            <option value={0}>🟢 En ligne</option>
-                            <option value={1}>🔴 Occupé</option>
-                            <option value={2}>🟠 Ailleurs</option>
-                        </select>
-                    </div>
-                    <button className="blue-bg" type="submit">Se connecter</button>
+                    <LoginInput
+                        type="text"
+                        label="Pseudo"
+                        id="username"
+                        value={username}
+                        onChange={onUsernameChange}
+                    />
+                    <LoginInput
+                        type="text"
+                        label="Statut"
+                        id="status"
+                        value={status}
+                        onChange={onStatusChange}
+                    />
+                    <StatusSelect onlineStatus={onlineStatus} setOnlineStatus={setOnlineStatus} />
+                    <button className="blue-bg" type="submit">
+                        Se connecter
+                    </button>
                 </div>
             </form>
             {

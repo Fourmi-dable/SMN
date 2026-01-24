@@ -161,6 +161,12 @@
     background: linear-gradient(0deg, rgb(172 185 194 / 35%) 4%, rgb(160 194 217 / 62%) 17%, rgba(235, 247, 252, 1) 56%, rgba(252, 254, 255, 1) 85%, rgb(237 250 255 / 69%) 97%);
 }
 
+.chat-sections-container .unread {
+    animation: clignote 1s infinite;
+    border: 1px solid rgb(230, 200, 173);
+    background: linear-gradient(0deg, rgb(255 230 201) 4%, rgb(254, 176, 153) 17%, rgb(252 228 212) 56%, rgba(252, 254, 255, 1) 85%, rgb(255 237 219) 97%);
+}
+
 .group-chat-container img {
     width: 20px;
     height: 20px;
@@ -185,6 +191,9 @@
     align-items: center;
     cursor: pointer;
     border: 1px solid transparent;
+
+    text-wrap-mode: nowrap;
+    overflow: hidden;
 }
 
 .section-user-connected.selected {
@@ -316,6 +325,19 @@
 
     100% {
         transform: translateX(0)
+    }
+}
+
+
+@keyframes clignote {
+    0% {
+        background: linear-gradient(0deg, rgb(172 185 194 / 35%) 4%, rgb(160 194 217 / 62%) 17%, rgba(235, 247, 252, 1) 56%, rgba(252, 254, 255, 1) 85%, rgb(237 250 255 / 69%) 97%);
+        border: 1px solid lightblue;
+    }
+
+    100% {
+        background: linear-gradient(0deg, rgb(255 230 201) 4%, rgb(254 231 153) 17%, rgb(252 228 212) 56%, rgba(252, 254, 255, 1) 85%, rgb(255 237 219) 97%);
+        border: 1px solid rgb(230, 200, 173);
     }
 }
 
