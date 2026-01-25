@@ -41,6 +41,19 @@
     align-items: center;
 }
 
+.conversation-right .public-chat {
+    width: 85%;
+    padding: 8px 0;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.conversation-right .connected-users {
+    font-weight: bold;
+    text-align: left;
+}
+
 .chat-input-container {
     flex: 1;
     flex-direction: column;
@@ -134,7 +147,7 @@
 }
 
 .section-content {
-    padding: 0 12px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     /* gap: 4px; */
@@ -229,6 +242,10 @@
     padding: 8px;
     overflow-y: auto;
     height: 325px;
+}
+
+.messages-content p {
+    font-size: 16px;
 }
 
 .chat-input {

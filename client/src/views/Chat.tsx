@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Chat.css";
 import { socket } from '../socket/socket.tsx'
 import type { ChatProps, ConversationsList } from "../types/types.ts";
-import ConversationWindow from "../components/ConversationWindow.tsx";
 import ContactsWindow from "../components/ContactsWindow.tsx";
 import { privateMessageListener, publicMessageListener } from "../socket/messages.tsx";
 import type { ActiveChat } from "../types/types.ts";
 import { useUserData } from "../contexts/UserContext.tsx";
 import { defaultPrivateConversation, defaultPublicConversation } from "../utils.tsx";
+import ChatWindow from "../components/ChatWindow.tsx";
 
 export const Chat: React.FC<ChatProps> = () => {
-    const { userData } = useUserData();
+    const { userData, setUserData } = useUserData();
     const [conversations, setConversations] = useState<ConversationsList>([
         [defaultPublicConversation], [defaultPrivateConversation]
     ]);
@@ -18,15 +18,6 @@ export const Chat: React.FC<ChatProps> = () => {
     const [activeChat, setActiveChat] = useState<ActiveChat>({
         type: "public", range: 0, user: null
     });
-
-    const messagesContentRef = useRef<HTMLDivElement>(null);
-
-    // Scroll en bas du chat à chaque nouveau message
-    useEffect(() => {
-        if (messagesContentRef.current) {
-            messagesContentRef.current.scrollTop = messagesContentRef.current.scrollHeight;
-        }
-    }, [conversations]);
 
     useEffect(() => {
         const savedData = localStorage.getItem("SMN-DATA");
@@ -46,6 +37,21 @@ export const Chat: React.FC<ChatProps> = () => {
         };
     }, []);
 
+    const updateStatus = (newStatus: number) => {
+        setUserData((prev) => {
+            if (!prev) return prev;
+            return { ...prev, onlineStatus: newStatus };
+        });
+
+        const savedData = localStorage.getItem("SMN-DATA");
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            data.onlineStatus = newStatus;
+            localStorage.setItem("SMN-DATA", JSON.stringify(data));
+        }
+        socket.emit("update-status", newStatus);
+    }
+
     return (
         <div className="chat-view" >
             <ContactsWindow
@@ -53,11 +59,12 @@ export const Chat: React.FC<ChatProps> = () => {
                 conversations={conversations}
                 activeChat={activeChat}
                 setActiveChat={setActiveChat}
+                setConversations={setConversations}
+                updateStatus={updateStatus}
             />
-            <ConversationWindow
+            <ChatWindow
                 userData={userData}
                 conversations={conversations}
-                messagesContentRef={messagesContentRef}
                 activeChat={activeChat}
             />
         </div >

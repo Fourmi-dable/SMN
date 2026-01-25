@@ -1,4 +1,4 @@
-import type { ConnectedUser, PrivateConversation, PublicConversation } from "./types/types";
+import type { ActiveChat, ConnectedUser, Message, PrivateConversation, PublicConversation } from "./types/types";
 import wizzSound from "./assets/sounds/wizz.mp3";
 import { socket } from "./socket/socket";
 
@@ -44,7 +44,7 @@ const disconnect = () => {
 
 const sendWizz = (canSendWizz: boolean,
     setCanSendWizz: React.Dispatch<React.SetStateAction<boolean>>,
-    chatWindowRef: React.RefObject<HTMLDivElement>) => {
+    chatWindowRef: React.RefObject<HTMLDivElement> | null) => {
     const wizz = new Audio(wizzSound);
 
     if (!canSendWizz) {
@@ -55,12 +55,30 @@ const sendWizz = (canSendWizz: boolean,
     setTimeout(() => setCanSendWizz(true), 5000);
 
     wizz.play();
-    chatWindowRef.current?.classList.add("wizz-animation");
+    if (chatWindowRef) chatWindowRef.current?.classList.add("wizz-animation");
 
     setTimeout(() => {
-        chatWindowRef.current?.classList.remove("wizz-animation");
+        if (chatWindowRef) chatWindowRef.current?.classList.remove("wizz-animation");
     }, 1000);
 }
+
+const getChatTitle = (chat: ActiveChat) => {
+    return `💬 Discussion ${chat.type === "public" ? "publique" : `avec ${chat.user?.username}`}
+        ${chat.type === "public" && ` - Salon principal`}`
+}
+
+
+const getUserColor = (uuid: string, connectedUsers: ConnectedUser[] | null): string => {
+    return findUserByUuid(uuid, connectedUsers)?.color || "inherit";
+};
+
+const formatMessage = (message: Message, connectedUsers: ConnectedUser[] | null) => {
+    const user = findUserByUuid(message.from, connectedUsers);
+    const displayName = user?.username || "Système";
+    const color = getUserColor(message.from, connectedUsers);
+
+    return { displayName, color, content: message.content };
+};
 
 export {
     findUserByUuid,
@@ -69,5 +87,8 @@ export {
     defaultPublicConversation,
     defaultPrivateConversation,
     isValidUsername,
-    isValidData
+    isValidData,
+    getChatTitle,
+    getUserColor,
+    formatMessage
 };

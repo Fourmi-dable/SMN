@@ -36,11 +36,24 @@ io.on('connection', (socket) => {
         if (userExists) {
             userExists.socketId = socket.id;
         } else {
-            userList.push({ uuid, socketId: socket.id, username, onlineStatus, avatar: selectedAvatar, status, color });
+            userList.push({
+                uuid,
+                socketId: socket.id,
+                username,
+                onlineStatus,
+                avatar: selectedAvatar,
+                status,
+                color
+            });
         }
         socket.join("public-room");
         io.emit('connectedUsersList', userList);
-        io.to("public-room").emit('message-public-room', { from: 'system', content: `${username} a rejoint le chat!`, timestamp: new Date().toISOString() });
+        io.to("public-room").emit('message-public-room',
+            {
+                from: 'system',
+                content: `${username} a rejoint le chat!`,
+                timestamp: new Date().toISOString()
+            });
     });
 
     socket.on('message-public-room', (message) => {
@@ -56,6 +69,15 @@ io.on('connection', (socket) => {
             console.log(`Envoi du message privé à ${toUser.username} (${toUser.socketId})`);
             io.to(toUser.socketId).emit('message-private', data);
             io.to(socket.id).emit('message-private', data);
+        }
+    });
+
+    socket.on('update-status', (newStatus) => {
+        console.log(`Mise à jour du statut en ligne pour ${socket.id} à ${newStatus}`);
+        const user = userList.find(user => user.socketId === socket.id);
+        if (user) {
+            user.onlineStatus = newStatus;
+            io.emit('connectedUsersList', userList);
         }
     });
 
