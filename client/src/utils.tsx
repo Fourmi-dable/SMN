@@ -19,6 +19,10 @@ const isValidUsername = (username: string): boolean => {
     return usernameRegex.test(username.trim());
 }
 
+const isValidStatus = (status: string): boolean => {
+    return status.length <= 100;
+}
+
 const isValidData = (data: any) => {
     if (!data.username || !data.username.trim() || data.username.trim().length > 30
         || data.username.trim().length < 2) return false;
@@ -64,7 +68,7 @@ const sendWizz = (canSendWizz: boolean,
 
 const getChatTitle = (chat: ActiveChat) => {
     return `💬 Discussion ${chat.type === "public" ? "publique" : `avec ${chat.user?.username}`}
-        ${chat.type === "public" && ` - Salon principal`}`
+        ${chat.type === "public" ? ` - Salon principal` : ` - ${chat.user?.status}`}`
 }
 
 
@@ -87,6 +91,7 @@ export {
     defaultPublicConversation,
     defaultPrivateConversation,
     isValidUsername,
+    isValidStatus,
     isValidData,
     getChatTitle,
     getUserColor,

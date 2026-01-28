@@ -5,7 +5,7 @@ import type { UserDatas } from "../types/types";
 import { v4 as uuidv4 } from 'uuid';
 import StatusSelect from "../components/StatusSelect";
 import LoginInput from "../components/LoginInput";
-import { isValidUsername } from "../utils";
+import { isValidStatus, isValidUsername } from "../utils";
 
 type LoginProps = {
     logUser: (userData: UserDatas) => void;
@@ -43,6 +43,11 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
         if (!isValidUsername(username)) {
             alert(`Le pseudo ne doit contenir que des lettres, des chiffres ou des
                  underscores(_),et doit faire entre 3 et 20 caractères.`);
+            return;
+        }
+
+        if (!isValidStatus(status)) {
+            alert("Le statut ne doit pas dépasser 100 caractères.");
             return;
         }
 
