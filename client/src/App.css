@@ -161,6 +161,10 @@
   top: 15%;
 }
 
+.avatar-list-container .window-body {
+  overflow: auto;
+}
+
 .separation-line {
   border-top: 1px solid #9fc3dcff;
   width: 100%;
