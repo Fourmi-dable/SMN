@@ -31,13 +31,17 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
 
     const handlePublicChatClick = () => {
         setActiveChat({ type: "public", range: 0, user: null });
-        setConversations((prev) => {
-            const newConvs: [PublicConversation[], PrivateConversation[]] = [
-                prev[0].map(conv => "room" in conv ? { ...conv, unread: 0 } : conv),
-                prev[1]
-            ];
-            return newConvs;
-        });
+        const newConvs: [PublicConversation[], PrivateConversation[]] = [
+            conversations[0].map(conv => "room" in conv ? { ...conv, unread: 0 } : conv),
+            conversations[1]
+        ];
+
+        const updatedData = {
+            ...JSON.parse(localStorage.getItem('SMN-DATA') || '{}'),
+            conversationList: newConvs
+        };
+        localStorage.setItem('SMN-DATA', JSON.stringify(updatedData));
+        setConversations(newConvs);
     };
 
     const handlePrivateChatClick = (user: ConnectedUser, id: number) => {
@@ -49,6 +53,13 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
                 newConvs[1] = newConvs[1].map(conv =>
                     conv.userId === user.uuid ? { ...conv, unread: 0 } : conv
                 );
+
+                const updatedData = {
+                    ...JSON.parse(localStorage.getItem('SMN-DATA') || '{}'),
+                    conversationList: newConvs
+                };
+                localStorage.setItem('SMN-DATA', JSON.stringify(updatedData));
+
                 return newConvs;
             });
         }
@@ -89,11 +100,15 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
                         <div
                             className={`section-content group-chat-container 
                                 ${activeChat.type === "public" && activeChat.range === 0 ? "selected" : ""} 
-                                ${conversations[0][0].unread ? "unread" : ""}`}
+                                ${conversations[0][0].unread > 0 ? "unread" : ""}`}
                             onClick={handlePublicChatClick}
                         >
                             <img src={groupChatLogo} />
                             <p>Salon Principal <span>({connectedUsersCount} connectés)</span></p>
+                            {conversations[0][0]?.unread && conversations[0][0].unread > 0
+                                ? <div className="unread-badge">{conversations[0][0].unread}</div>
+                                : null
+                            }
                         </div>
                     </section>
 
@@ -117,7 +132,10 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
                                             </div>
                                             <p>{user.username} -</p>
                                             <p className="section-user-bio">{user.status}</p>
-                                            {userConv?.unread && <div className="unread-badge">{userConv.unread}</div>}
+                                            {userConv?.unread && userConv.unread > 0
+                                                ? <div className="unread-badge">{userConv.unread}</div>
+                                                : null
+                                            }
                                         </div>
                                     );
                                 })}

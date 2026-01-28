@@ -11,10 +11,8 @@ import { useUserData } from './contexts/UserContext.tsx';
 
 const AppContent = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     const { userData, setUserData } = useUserData();
 
-    console.log("AppContent userData:", userData);
     const logUser = (userData: UserDatas) => {
         if (!isValidData(userData)) return;
         setUserData(userData);

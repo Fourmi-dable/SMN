@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Chat.css";
 import { socket } from '../socket/socket.tsx'
-import type { ChatProps, ConversationsList } from "../types/types.ts";
+import type { ConversationsList } from "../types/types.ts";
 import ContactsWindow from "../components/ContactsWindow.tsx";
 import { privateMessageListener, publicMessageListener } from "../socket/messages.tsx";
 import type { ActiveChat } from "../types/types.ts";
@@ -9,7 +9,7 @@ import { useUserData } from "../contexts/UserContext.tsx";
 import { defaultPrivateConversation, defaultPublicConversation } from "../utils.tsx";
 import ChatWindow from "../components/ChatWindow.tsx";
 
-export const Chat: React.FC<ChatProps> = () => {
+export const Chat: React.FC = () => {
     const { userData, setUserData } = useUserData();
     const [conversations, setConversations] = useState<ConversationsList>([
         [defaultPublicConversation], [defaultPrivateConversation]
@@ -18,6 +18,14 @@ export const Chat: React.FC<ChatProps> = () => {
     const [activeChat, setActiveChat] = useState<ActiveChat>({
         type: "public", range: 0, user: null
     });
+
+    const handlePublicMessage = useCallback(() => {
+        publicMessageListener(socket, userData, activeChat, setConversations);
+    }, [userData, activeChat]);
+
+    const handlePrivateMessage = useCallback(() => {
+        privateMessageListener(socket, userData, activeChat, setConversations);
+    }, [userData, activeChat]);
 
     useEffect(() => {
         const savedData = localStorage.getItem("SMN-DATA");
@@ -28,14 +36,17 @@ export const Chat: React.FC<ChatProps> = () => {
             }
         }
 
-        publicMessageListener(socket, userData, activeChat, setConversations);
-        privateMessageListener(socket, userData, activeChat, setConversations);
+        socket.off('message-public-room');
+        socket.off('message-private')
+
+        handlePrivateMessage();
+        handlePublicMessage();
 
         return () => {
             socket.off('message-public-room');
             socket.off('message-private')
         };
-    }, []);
+    }, [handlePublicMessage, handlePrivateMessage]);
 
     const updateStatus = (newStatus: number) => {
         setUserData((prev) => {

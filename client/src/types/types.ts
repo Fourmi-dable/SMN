@@ -17,11 +17,6 @@ type UserDatas = {
     color: string;
 };
 
-type ChatProps = {
-    userData: UserDatas;
-    connectedUserList: ConnectedUser[] | null;
-};
-
 type Message = {
     from: string; // user uuid
     to: string; // user uuid
@@ -51,7 +46,6 @@ type ActiveChat = {
 
 export type {
     UserDatas,
-    ChatProps,
     Message,
     PrivateConversation,
     PublicConversation,
