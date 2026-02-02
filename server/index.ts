@@ -125,6 +125,6 @@ app.get(/.*/, (_req, res) => {
     res.sendFile(path.join(FRONT_DIR, "index.html"));
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, "127.0.0.1", () => {
     console.log(`Server listening on ${PORT}`);
 });
