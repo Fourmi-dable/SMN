@@ -118,7 +118,7 @@ app.get("/health", (_req, res) => {
 });
 
 const __dirname = path.resolve();
-const FRONT_DIR = path.join(__dirname, "../client/dist");
+const FRONT_DIR = path.join(__dirname, "../../client/dist");
 
 app.use(express.static(FRONT_DIR));
 app.get(/.*/, (_req, res) => {
