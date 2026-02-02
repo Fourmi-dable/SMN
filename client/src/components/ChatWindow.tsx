@@ -29,6 +29,14 @@ const ChatWindow = ({ activeChat, conversations, userData }: {
         }
     }, [conversations]);
 
+    const getChatTitle = (activeChat: ActiveChat): string => {
+        if (activeChat.type === "public") {
+            return "Salon public";
+        }
+        const username = activeChat.user?.username || "";
+        return `Discussion avec ${username.length > 25 ? username.slice(0, 25) + "..." : username}`;
+    };
+
     return (
         <DraggableWindow
             className="window glass active chat-window conversation"
@@ -36,9 +44,11 @@ const ChatWindow = ({ activeChat, conversations, userData }: {
             ref={chatWindowRef}
         >
             <div className="title-bar">
-                <div className="title-bar-text">
-                    <img src={logo} alt="logo" />
-                    <span>SMN Messenger</span> - Chat
+                <div>
+                    <div className="title-bar-text">
+                        <img src={logo} alt="logo" />
+                        <span>SMN Messenger</span> <p className="title-bar-chat-label">- {getChatTitle(activeChat)}</p>
+                    </div>
                 </div>
                 <div className="title-bar-controls">
                     <button aria-label="Minimize"></button>

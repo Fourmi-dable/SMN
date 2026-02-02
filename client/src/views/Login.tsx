@@ -40,9 +40,9 @@ export const Login: React.FC<LoginProps> = ({ logUser }) => {
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        console.log("Submitting with username:", username, "and status:", status);
         if (!isValidUsername(username)) {
-            alert(`Le pseudo ne doit contenir que des lettres, des chiffres ou des
-                 underscores(_),et doit faire entre 3 et 20 caractères.`);
+            alert(`Le pseudo doit faire entre 3 et 100 caractères.`);
             return;
         }
 

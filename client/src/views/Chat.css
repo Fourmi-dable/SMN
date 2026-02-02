@@ -36,6 +36,7 @@
 
 .conversation-right {
     display: flex;
+    width: 200px;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -74,9 +75,22 @@
 
 .chat-window .title-bar-text {
     color: #343C8F;
-
+    white-space: nowrap;
     display: flex;
     align-items: center;
+}
+
+.title-bar-chat-label {
+    /* max-width: 430px;
+    text-overflow: ellipsis;
+    text-align: start;
+    text-wrap-mode: nowrap;
+    overflow-x: hidden; */
+}
+
+.message-content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .chat-window .title-bar-text img {
@@ -102,23 +116,43 @@
 }
 
 .user-infos-container {
+    flex-direction: column;
+    height: 170px;
     display: flex;
-    gap: 20px;
     padding: 8px;
+    overflow: hidden;
+    gap: 10px
 }
 
 .user-infos {
     text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 8px 4px;
+    padding: 8px 16px;
+    word-break: break-word;
 }
 
 .info {
-    font-size: 24px;
     color: #343C8F;
 }
+
+.user-info-username {
+    font-size: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.user-info-status {
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    text-align: start;
+}
+
 
 .info.small {
     font-size: 16px;
@@ -151,6 +185,10 @@
     display: flex;
     flex-direction: column;
     /* gap: 4px; */
+}
+
+.section-content.section-user-connected {
+    overflow: visible;
 }
 
 .group-chat-container {
@@ -257,10 +295,22 @@
     padding: 8px;
     overflow-y: auto;
     height: 325px;
+    word-break: break-all;
 }
 
 .messages-content p {
     font-size: 16px;
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.chat-title-main {
+    font-weight: 400;
+    color: #343C8F;
 }
 
 .chat-input {
@@ -293,6 +343,9 @@
 
 
 .container-header {
+    align-content: center;
+    overflow: hidden;
+    text-align: left;
     max-height: 40px;
     height: 100%;
     background-color: blue;
@@ -300,8 +353,6 @@
     background: linear-gradient(0deg, rgba(182, 216, 255, 1) 5%, rgba(255, 255, 255, 1) 30%, rgba(83, 209, 255, 1) 100%);
     border-bottom: 1px solid #343C8F;
 
-    display: flex;
-    align-items: center;
     padding: 0 16px;
 
     color: #343C8F;
@@ -309,10 +360,6 @@
     font-weight: 300;
 }
 
-.container-header span {
-    font-weight: 800;
-    margin-left: 4px;
-}
 
 .container-header button {
     height: 100%;

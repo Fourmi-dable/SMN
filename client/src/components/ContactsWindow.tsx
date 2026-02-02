@@ -84,12 +84,15 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
 
             <div className="window-body has-space">
                 <div className="user-infos-container">
-                    <Avatar onlineStatus={onlineStatus} selectedAvatar={selectedAvatar} />
-                    <div className="user-infos">
-                        <div className="info">{username}</div>
-                        <div className="info small">{status || "<Pas de statut>"}</div>
-                        <StatusSelect onlineStatus={onlineStatus} setOnlineStatus={updateStatus} />
+                    <div style={{ display: "flex" }}>
+                        <Avatar onlineStatus={onlineStatus} selectedAvatar={selectedAvatar} />
+                        <div className="user-infos">
+                            <div className="info user-info-username">{username}</div>
+
+                        </div>
                     </div>
+                    <div className="info user-info-status">{status || "<Pas de statut>"}</div>
+                    <StatusSelect onlineStatus={onlineStatus} setOnlineStatus={updateStatus} />
                 </div>
 
                 <div className="separation-line" />
@@ -130,8 +133,8 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
                                             <div className="section-user-status">
                                                 {["🟢", "🔴", "🟠"][user.onlineStatus] || "🟢"}
                                             </div>
-                                            <p>{user.username} -</p>
-                                            <p className="section-user-bio">{user.status}</p>
+                                            <p>{user.username.length > 15 ? user.username.substring(0, 15) + "..." : user.username}</p>
+                                            {user.status && <p className="section-user-bio">- {user.status}</p>}
                                             {userConv?.unread && userConv.unread > 0
                                                 ? <div className="unread-badge">{userConv.unread}</div>
                                                 : null

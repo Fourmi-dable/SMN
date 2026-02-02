@@ -34,7 +34,7 @@ const ChatLeft = ({ activeChat, userData, chatWindowRef,
             to: activeChat.type === "private" && activeChat.user
                 ? activeChat.user.uuid
                 : "public-room",
-            content: messageInput.trim(),
+            content: messageInput,
         };
 
         socket.emit(
@@ -50,19 +50,30 @@ const ChatLeft = ({ activeChat, userData, chatWindowRef,
             handleSendMessage();
         }
     };
+
     return (<div className="conversation-left">
         <div className="messages-container">
             <div className="container-header">
-                {getChatTitle(activeChat)}
+                <p>
+                    {getChatTitle(activeChat)}
+                </p>
             </div>
 
             <div className="messages-content" ref={messagesContentRef}>
                 {currentMessages.map((message: Message, id: number) => {
                     const { displayName, color, content } = formatMessage(message, connectedUsers);
+                    const previousMessage = currentMessages[id - 1];
+                    const showDisplayName = !previousMessage || previousMessage.from !== message.from;
+                    console.log("message from :", message.from, "displayName :", displayName, "content :", content);
                     return (
-                        <p key={id} style={{ color }}>
-                            {displayName} : {content}
-                        </p>
+                        displayName === "Système"
+                            ? (
+                                <p className="message-content" style={{ color: "grey" }}>{content}</p>
+                            ) :
+                            <p key={id} style={{ color }}>
+                                {showDisplayName && <span style={{ fontSize: "16px" }}> {displayName} <span style={{ color: "#787878" }}>dit :</span></span>}
+                                <p className="message-content" style={{ color, fontWeight: "400", fontSize: "18px", marginLeft: "2px" }}><span style={{ color: "#787878" }}>.</span> {content}</p>
+                            </p>
                     );
                 })}
             </div>

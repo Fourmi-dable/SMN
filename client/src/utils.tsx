@@ -2,6 +2,8 @@ import type { ActiveChat, ConnectedUser, Message, PrivateConversation, PublicCon
 import wizzSound from "./assets/sounds/wizz.mp3";
 import { socket } from "./socket/socket";
 
+const STATUS_LABELS = ["(En ligne)", "(Occupé)", "(Ailleurs)"];
+
 const defaultPublicConversation: PublicConversation = {
     room: "public-room",
     unread: 0,
@@ -15,8 +17,7 @@ const defaultPrivateConversation: PrivateConversation = {
 };
 
 const isValidUsername = (username: string): boolean => {
-    const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
-    return usernameRegex.test(username.trim());
+    return (username.trim().length >= 2 && username.trim().length <= 100);
 }
 
 const isValidStatus = (status: string): boolean => {
@@ -24,7 +25,7 @@ const isValidStatus = (status: string): boolean => {
 }
 
 const isValidData = (data: any) => {
-    if (!data.username || !data.username.trim() || data.username.trim().length > 30
+    if (!data.username || !data.username.trim() || data.username.trim().length > 100
         || data.username.trim().length < 2) return false;
     if (data.onlineStatus < 0 || data.onlineStatus > 2) data.onlineStatus = 0;
     if (data.selectedAvatar < 0 || data.selectedAvatar >= 36) data.selectedAvatar = 0;
@@ -66,11 +67,36 @@ const sendWizz = (canSendWizz: boolean,
     }, 1000);
 }
 
-const getChatTitle = (chat: ActiveChat) => {
-    return `💬 Discussion ${chat.type === "public" ? "publique" : `avec ${chat.user?.username}`}
-        ${chat.type === "public" ? ` - Salon principal` : ` - ${chat.user?.status}`}`
-}
+const truncateUsername = (username: string, maxLength: number = 25): string => {
+    return username.length > maxLength ? username.slice(0, maxLength) + '...' : username;
+};
 
+const getChatTitle = (chat: ActiveChat) => {
+    if (chat.type === "public") {
+        return (
+            <div className="chat-title">
+                <p className="chat-title-main">💬 Discussion publique</p>
+                <p className="chat-title-sub">- Salon principal</p>
+            </div>
+        );
+    }
+
+    const user = chat.user;
+    if (!user) return null;
+
+    const truncatedUsername = truncateUsername(user.username);
+    const statusLabel = STATUS_LABELS[user.onlineStatus || 0];
+    const title = `💬 ${truncatedUsername} ${statusLabel}`;
+
+    return (
+        <div className="chat-title">
+            <p>
+                <span className="chat-title-main">{title}</span>
+                <span className="chat-title-sub"> - {user.status}</span>
+            </p>
+        </div>
+    );
+};
 
 const getUserColor = (uuid: string, connectedUsers: ConnectedUser[] | null): string => {
     return findUserByUuid(uuid, connectedUsers)?.color || "inherit";
