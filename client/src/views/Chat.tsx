@@ -6,7 +6,7 @@ import ContactsWindow from "../components/ContactsWindow.tsx";
 import { privateMessageListener, publicMessageListener } from "../socket/messages.tsx";
 import type { ActiveChat } from "../types/types.ts";
 import { useUserData } from "../contexts/UserContext.tsx";
-import { defaultPrivateConversation, defaultPublicConversation } from "../utils.tsx";
+import { defaultPrivateConversation, defaultPublicConversation, disconnect } from "../utils.tsx";
 import ChatWindow from "../components/ChatWindow.tsx";
 
 export const Chat: React.FC = () => {
@@ -32,6 +32,13 @@ export const Chat: React.FC = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    socket.on("connect_error", (err) => {
+        if (err?.message === "server_full") {
+            alert("Serveur plein (50). Réessaie plus tard.");
+            disconnect();
+        }
+    });
 
     const handlePublicMessage = useCallback(() => {
         publicMessageListener(socket, userData, activeChat, setConversations, isMobile, canSendWizz, setCanSendWizz, chatWindowRef);

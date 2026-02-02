@@ -42,7 +42,7 @@ const findUserByUuid = (uuid: string, connectedUserList: ConnectedUser[] | null)
 
 const disconnect = () => {
     localStorage.removeItem("SMN-DATA");
-    socket.disconnect();
+    if (socket && socket.disconnect) socket.disconnect();
     window.location.reload();
 }
 
