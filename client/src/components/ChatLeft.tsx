@@ -7,7 +7,7 @@ import { formatMessage, getChatTitle, sendWizz } from "../utils";
 import { socket } from "../socket/socket";
 
 const ChatLeft = ({ activeChat, userData, chatWindowRef,
-    conversations, messagesContentRef, connectedUsers }: {
+    conversations, messagesContentRef, connectedUsers, canSendWizz, setCanSendWizz }: {
         activeChat: ActiveChat,
         userData: UserDatas,
         chatWindowRef: React.RefObject<HTMLDivElement> | null,
@@ -15,7 +15,6 @@ const ChatLeft = ({ activeChat, userData, chatWindowRef,
         messagesContentRef: React.RefObject<HTMLDivElement>,
         connectedUsers: ConnectedUser[] | null
     }) => {
-    const [canSendWizz, setCanSendWizz] = useState(true);
     const [messageInput, setMessageInput] = useState<string>("");
 
     const currentMessages = useMemo(() => {
@@ -83,7 +82,7 @@ const ChatLeft = ({ activeChat, userData, chatWindowRef,
                 <button>A</button>
                 <button>😃</button>
                 <button>😉</button>
-                <button onClick={() => sendWizz(canSendWizz, setCanSendWizz, chatWindowRef)}>
+                <button onClick={() => sendWizz(canSendWizz, setCanSendWizz, activeChat)}>
                     😖
                 </button>
             </div>

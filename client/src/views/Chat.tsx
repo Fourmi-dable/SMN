@@ -21,6 +21,7 @@ export const Chat: React.FC = () => {
     const [mobileView, setMobileView] = useState<'contacts' | 'chat'>('contacts');
     const chatWindowRef = useRef<HTMLDivElement>(null);
     const contactsWindowRef = useRef<HTMLDivElement>(null);
+    const [canSendWizz, setCanSendWizz] = useState(true);
 
     useEffect(() => {
         const handleResize = () => {
@@ -33,11 +34,11 @@ export const Chat: React.FC = () => {
     }, []);
 
     const handlePublicMessage = useCallback(() => {
-        publicMessageListener(socket, userData, activeChat, setConversations, isMobile);
+        publicMessageListener(socket, userData, activeChat, setConversations, isMobile, canSendWizz, setCanSendWizz, chatWindowRef);
     }, [userData, activeChat]);
 
     const handlePrivateMessage = useCallback(() => {
-        privateMessageListener(socket, userData, activeChat, setConversations, isMobile);
+        privateMessageListener(socket, userData, activeChat, setConversations, isMobile, canSendWizz, setCanSendWizz, chatWindowRef);
     }, [userData, activeChat]);
 
     useEffect(() => {
@@ -50,14 +51,16 @@ export const Chat: React.FC = () => {
         }
 
         socket.off('message-public-room');
-        socket.off('message-private')
+        socket.off('message-private');
+        socket.off('receive-wizz');
 
         handlePrivateMessage();
         handlePublicMessage();
 
         return () => {
             socket.off('message-public-room');
-            socket.off('message-private')
+            socket.off('message-private');
+            socket.off('receive-wizz');
         };
     }, [handlePublicMessage, handlePrivateMessage]);
 
@@ -100,6 +103,8 @@ export const Chat: React.FC = () => {
                         isMobile={isMobile}
                         setMobileView={setMobileView}
                         chatWindowRef={chatWindowRef}
+                        canSendWizz={canSendWizz}
+                        setCanSendWizz={setCanSendWizz}
                     />
                 )
             ) : (
@@ -123,6 +128,8 @@ export const Chat: React.FC = () => {
                         isMobile={isMobile}
                         setMobileView={setMobileView}
                         chatWindowRef={chatWindowRef}
+                        canSendWizz={canSendWizz}
+                        setCanSendWizz={setCanSendWizz}
                     />
                 </>
             )}

@@ -9,7 +9,7 @@ import { useUserData } from "../contexts/UserContext";
 import ChatRight from "./ChatRight";
 import ChatLeft from "./ChatLeft";
 
-const ChatWindow = ({ activeChat, conversations, userData, isMobile, setMobileView, chatWindowRef }: {
+const ChatWindow = ({ activeChat, conversations, userData, isMobile, setMobileView, chatWindowRef, canSendWizz, setCanSendWizz }: {
     messagesContentRef: React.RefObject<HTMLDivElement>,
     activeChat: ActiveChat,
     conversations: [PublicConversation[], PrivateConversation[]],
@@ -79,6 +79,8 @@ const ChatWindow = ({ activeChat, conversations, userData, isMobile, setMobileVi
                         conversations={conversations}
                         messagesContentRef={messagesContentRef}
                         connectedUsers={connectedUsers}
+                        canSendWizz={canSendWizz}
+                        setCanSendWizz={setCanSendWizz}
                     />
                     <ChatRight
                         activeChat={activeChat}

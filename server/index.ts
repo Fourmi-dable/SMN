@@ -57,23 +57,32 @@ io.on('connection', (socket) => {
     });
 
     socket.on('message-public-room', (message) => {
-        console.log('Message reçu pour la public-room:', message);
         io.to("public-room").emit('message-public-room', message);
+    });
+
+    socket.on('send-wizz', (to) => {
+        console.log('send-wizz reçu coté serveur, to:', to);
+        const fromUser = userList.find(user => user.socketId === socket.id);
+        const toUser = userList.find(user => user.uuid === to);
+
+        if (to === "public-room") {
+            io.to("public-room").emit('receive-wizz', { to: to, from: fromUser })
+        } else if (toUser) {
+            io.to(toUser.socketId).emit('receive-wizz', { to: toUser, from: fromUser });
+            io.to(socket.id).emit('receive-wizz', { to: toUser, from: fromUser });
+        }
     });
 
     socket.on('message-private', (data) => {
         const { to } = data;
-        console.log('Message privé reçu:', data);
         const toUser = userList.find(user => user.uuid === to);
         if (toUser) {
-            console.log(`Envoi du message privé à ${toUser.username} (${toUser.socketId})`);
             io.to(toUser.socketId).emit('message-private', data);
             io.to(socket.id).emit('message-private', data);
         }
     });
 
     socket.on('update-status', (newStatus) => {
-        console.log(`Mise à jour du statut en ligne pour ${socket.id} à ${newStatus}`);
         const user = userList.find(user => user.socketId === socket.id);
         if (user) {
             user.onlineStatus = newStatus;

@@ -34,13 +34,17 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
         return connectedUsers?.length ? connectedUsers.length - 1 : 0;
     }, [connectedUsers]);
 
-    const handlePublicChatClick = () => {
-        setActiveChat({ type: "public", range: 0, user: null });
+    const displayChatWindow = () => {
         if (isMobile) { setMobileView('chat') } else {
             if (chatWindowRef.current) {
                 chatWindowRef.current.style.display = 'block';
             }
         }
+    }
+
+    const handlePublicChatClick = () => {
+        setActiveChat({ type: "public", range: 0, user: null });
+        displayChatWindow();
         const newConvs: [PublicConversation[], PrivateConversation[]] = [
             conversations[0].map(conv => "room" in conv ? { ...conv, unread: 0 } : conv),
             conversations[1]
@@ -63,7 +67,7 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
 
     const handlePrivateChatClick = (user: ConnectedUser, id: number) => {
         setActiveChat({ type: "private", range: id, user });
-        if (isMobile) setMobileView('chat');
+        displayChatWindow();
         const userConv = conversations[1].find(conv => conv.userId === user.uuid);
         if (userConv) {
             setConversations(prev => {

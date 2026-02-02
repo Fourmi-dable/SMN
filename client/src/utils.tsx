@@ -1,5 +1,4 @@
 import type { ActiveChat, ConnectedUser, Message, PrivateConversation, PublicConversation } from "./types/types";
-import wizzSound from "./assets/sounds/wizz.mp3";
 import { socket } from "./socket/socket";
 
 const STATUS_LABELS = ["(En ligne)", "(Occupé)", "(Ailleurs)"];
@@ -49,22 +48,20 @@ const disconnect = () => {
 
 const sendWizz = (canSendWizz: boolean,
     setCanSendWizz: React.Dispatch<React.SetStateAction<boolean>>,
-    chatWindowRef: React.RefObject<HTMLDivElement> | null) => {
-    const wizz = new Audio(wizzSound);
+    activeChat: ActiveChat) => {
 
     if (!canSendWizz) {
         alert("Veuillez attendre avant d'envoyer un autre Wizz.");
         return;
     }
     setCanSendWizz(false);
+    console.log("activeChat dans sendWizz:", activeChat);
+    socket.emit('send-wizz', activeChat.user
+        ? activeChat.user.uuid
+        : "public-room"
+    );
+
     setTimeout(() => setCanSendWizz(true), 5000);
-
-    wizz.play();
-    if (chatWindowRef) chatWindowRef.current?.classList.add("wizz-animation");
-
-    setTimeout(() => {
-        if (chatWindowRef) chatWindowRef.current?.classList.remove("wizz-animation");
-    }, 1000);
 }
 
 const truncateUsername = (username: string, maxLength: number = 25): string => {
