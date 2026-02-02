@@ -25,7 +25,6 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
 
     useEffect(() => {
         function getConnectedUsers(userList: ConnectedUser[]) {
-            console.log("Received connected users list:", userList);
             setConnectedUsers(userList);
         }
 

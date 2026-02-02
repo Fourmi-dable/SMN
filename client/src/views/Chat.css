@@ -80,14 +80,6 @@
     align-items: center;
 }
 
-.title-bar-chat-label {
-    /* max-width: 430px;
-    text-overflow: ellipsis;
-    text-align: start;
-    text-wrap-mode: nowrap;
-    overflow-x: hidden; */
-}
-
 .message-content {
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -426,10 +418,18 @@
 
 @media screen and (max-width: 900px) {
     .chat-window.conversation {
-        display: none;
+        width: 95%;
+        /* max-width: 900px; */
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 
-    .chat-window:not(.conversation) {
+    .window-body {
+        height: 85vh !important;
+    }
+
+    .chat-window {
         width: 95%;
         max-width: none;
     }

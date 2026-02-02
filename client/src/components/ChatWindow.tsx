@@ -1,5 +1,4 @@
 import { useRef, useEffect } from "react";
-import { disconnect } from "../utils";
 import { DraggableWindow } from "./DraggableWindow";
 import type {
     ActiveChat, PrivateConversation,
@@ -10,14 +9,16 @@ import { useUserData } from "../contexts/UserContext";
 import ChatRight from "./ChatRight";
 import ChatLeft from "./ChatLeft";
 
-const ChatWindow = ({ activeChat, conversations, userData }: {
+const ChatWindow = ({ activeChat, conversations, userData, isMobile, setMobileView, chatWindowRef }: {
     messagesContentRef: React.RefObject<HTMLDivElement>,
     activeChat: ActiveChat,
     conversations: [PublicConversation[], PrivateConversation[]],
-    userData: UserDatas
+    userData: UserDatas,
+    isMobile: boolean,
+    setMobileView: React.Dispatch<React.SetStateAction<string>>,
+    chatWindowRef: React.RefObject<HTMLDivElement>
 }) => {
     const messagesContentRef = useRef<HTMLDivElement>(null);
-    const chatWindowRef = useRef<HTMLDivElement>(null);
 
     const { onlineStatus, selectedAvatar } = userData;
     const { connectedUsers } = useUserData();
@@ -37,11 +38,23 @@ const ChatWindow = ({ activeChat, conversations, userData }: {
         return `Discussion avec ${username.length > 25 ? username.slice(0, 25) + "..." : username}`;
     };
 
+    const minimiseChatWindow = () => {
+        if (isMobile) {
+            setMobileView('contacts');
+        }
+        else {
+            if (chatWindowRef.current) {
+                chatWindowRef.current.style.display = 'none';
+            }
+        }
+    }
+
     return (
         <DraggableWindow
             className="window glass active chat-window conversation"
-            initialPosition={{ left: 500, top: 120 }}
+            initialPosition={{ left: isMobile ? 10 : 500, top: isMobile ? 60 : 120 }}
             ref={chatWindowRef}
+            isMobile={isMobile}
         >
             <div className="title-bar">
                 <div>
@@ -51,9 +64,9 @@ const ChatWindow = ({ activeChat, conversations, userData }: {
                     </div>
                 </div>
                 <div className="title-bar-controls">
-                    <button aria-label="Minimize"></button>
+                    <button aria-label="Minimize" onClick={minimiseChatWindow}></button>
                     <button aria-label="Maximize"></button>
-                    <button aria-label="Close" onClick={disconnect}></button>
+                    <button aria-label="Close" onClick={minimiseChatWindow}></button>
                 </div>
             </div>
 

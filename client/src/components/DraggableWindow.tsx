@@ -8,6 +8,7 @@ type DraggableWindowProps = {
     className?: string;
     style?: React.CSSProperties;
     ref?: React.Ref<HTMLDivElement>;
+    isMobile?: boolean;
 };
 
 export const DraggableWindow: React.FC<DraggableWindowProps> = ({
@@ -16,6 +17,7 @@ export const DraggableWindow: React.FC<DraggableWindowProps> = ({
     className = "",
     style = {},
     ref,
+    isMobile,
 }) => {
     const [position, setPosition] = useState<{ left: number; top: number }>(initialPosition);
     const [zIndex, setZIndex] = useState(zIndexCounter);
@@ -40,10 +42,15 @@ export const DraggableWindow: React.FC<DraggableWindowProps> = ({
     };
 
     const onMouseMove = (event: MouseEvent) => {
-        if (!isDragging.current) return;
+        if (!isDragging.current || !ref?.current) return;
+        const rect = ref.current.getBoundingClientRect();
+        const newLeft = event.clientX - offset.current.x;
+        const newTop = event.clientY - offset.current.y;
+        const maxLeft = window.innerWidth - rect.width;
+        const maxTop = window.innerHeight - rect.height;
         setPosition({
-            left: event.clientX - offset.current.x,
-            top: event.clientY - offset.current.y,
+            left: Math.max(0, Math.min(newLeft, maxLeft)),
+            top: Math.max(0, Math.min(newTop, maxTop)),
         });
     };
 
@@ -59,6 +66,25 @@ export const DraggableWindow: React.FC<DraggableWindowProps> = ({
             window.removeEventListener("mouseup", onMouseUp);
         };
     }, []);
+
+    // Disable dragging on mobile devices
+    if (isMobile) {
+        return (
+            <div
+                className={className}
+                style={{
+                    ...style,
+                    position: "absolute",
+                    zIndex,
+                    left: 10,
+                    top: 60,
+                }}
+                ref={ref}
+            >
+                {children}
+            </div>
+        );
+    }
 
     return (
         <div

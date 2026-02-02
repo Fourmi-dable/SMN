@@ -75,8 +75,8 @@ const getChatTitle = (chat: ActiveChat) => {
     if (chat.type === "public") {
         return (
             <div className="chat-title">
-                <p className="chat-title-main">💬 Discussion publique</p>
-                <p className="chat-title-sub">- Salon principal</p>
+                <span className="chat-title-main">💬 Discussion publique</span>
+                <span className="chat-title-sub">- Salon principal</span>
             </div>
         );
     }
@@ -90,10 +90,8 @@ const getChatTitle = (chat: ActiveChat) => {
 
     return (
         <div className="chat-title">
-            <p>
-                <span className="chat-title-main">{title}</span>
-                <span className="chat-title-sub"> - {user.status}</span>
-            </p>
+            <span className="chat-title-main">{title}</span>
+            <span className="chat-title-sub"> - {user.status}</span>
         </div>
     );
 };

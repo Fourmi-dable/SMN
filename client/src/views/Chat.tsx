@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./Chat.css";
 import { socket } from '../socket/socket.tsx'
 import type { ConversationsList } from "../types/types.ts";
@@ -14,17 +14,30 @@ export const Chat: React.FC = () => {
     const [conversations, setConversations] = useState<ConversationsList>([
         [defaultPublicConversation], [defaultPrivateConversation]
     ]);
-
     const [activeChat, setActiveChat] = useState<ActiveChat>({
         type: "public", range: 0, user: null
     });
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+    const [mobileView, setMobileView] = useState<'contacts' | 'chat'>('contacts');
+    const chatWindowRef = useRef<HTMLDivElement>(null);
+    const contactsWindowRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth < 900;
+            setIsMobile(mobile);
+            if (!mobile) setMobileView('contacts'); // Reset en desktop
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handlePublicMessage = useCallback(() => {
-        publicMessageListener(socket, userData, activeChat, setConversations);
+        publicMessageListener(socket, userData, activeChat, setConversations, isMobile);
     }, [userData, activeChat]);
 
     const handlePrivateMessage = useCallback(() => {
-        privateMessageListener(socket, userData, activeChat, setConversations);
+        privateMessageListener(socket, userData, activeChat, setConversations, isMobile);
     }, [userData, activeChat]);
 
     useEffect(() => {
@@ -64,20 +77,55 @@ export const Chat: React.FC = () => {
     }
 
     return (
-        <div className="chat-view" >
-            <ContactsWindow
-                userData={userData}
-                conversations={conversations}
-                activeChat={activeChat}
-                setActiveChat={setActiveChat}
-                setConversations={setConversations}
-                updateStatus={updateStatus}
-            />
-            <ChatWindow
-                userData={userData}
-                conversations={conversations}
-                activeChat={activeChat}
-            />
-        </div >
+        <div className="chat-view">
+            {isMobile ? (
+                mobileView === 'contacts' ? (
+                    <ContactsWindow
+                        userData={userData}
+                        conversations={conversations}
+                        activeChat={activeChat}
+                        setActiveChat={setActiveChat}
+                        setConversations={setConversations}
+                        updateStatus={updateStatus}
+                        isMobile={isMobile}
+                        setMobileView={setMobileView}
+                        chatWindowRef={chatWindowRef}
+                        contactsWindowRef={contactsWindowRef}
+                    />
+                ) : (
+                    <ChatWindow
+                        userData={userData}
+                        conversations={conversations}
+                        activeChat={activeChat}
+                        isMobile={isMobile}
+                        setMobileView={setMobileView}
+                        chatWindowRef={chatWindowRef}
+                    />
+                )
+            ) : (
+                <>
+                    <ContactsWindow
+                        userData={userData}
+                        conversations={conversations}
+                        activeChat={activeChat}
+                        setActiveChat={setActiveChat}
+                        setConversations={setConversations}
+                        updateStatus={updateStatus}
+                        isMobile={isMobile}
+                        setMobileView={setMobileView}
+                        chatWindowRef={chatWindowRef}
+                        contactsWindowRef={contactsWindowRef}
+                    />
+                    <ChatWindow
+                        userData={userData}
+                        conversations={conversations}
+                        activeChat={activeChat}
+                        isMobile={isMobile}
+                        setMobileView={setMobileView}
+                        chatWindowRef={chatWindowRef}
+                    />
+                </>
+            )}
+        </div>
     );
 }

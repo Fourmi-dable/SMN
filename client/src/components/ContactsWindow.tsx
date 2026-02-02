@@ -7,6 +7,7 @@ import "../views/Chat.css";
 import type { ConnectedUser, PrivateConversation, PublicConversation, UserDatas } from "../types/types";
 import StatusSelect from "./StatusSelect";
 import { useUserData } from "../contexts/UserContext";
+import { disconnect } from "../utils";
 
 type ActiveChat = {
     type: "public" | "private";
@@ -14,13 +15,17 @@ type ActiveChat = {
     user: ConnectedUser | null;
 }
 
-const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, setConversations, updateStatus }: {
+const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, setConversations, updateStatus, isMobile, setMobileView, chatWindowRef, contactsWindowRef }: {
     userData: UserDatas | null,
     activeChat: ActiveChat,
     conversations: [PublicConversation[], PrivateConversation[]],
     setActiveChat: React.Dispatch<React.SetStateAction<ActiveChat>>,
     setConversations: React.Dispatch<React.SetStateAction<[PublicConversation[], PrivateConversation[]]>>,
-    updateStatus: (newStatus: number) => void
+    updateStatus: (newStatus: number) => void,
+    chatWindowRef: React.RefObject<HTMLDivElement>,
+    contactsWindowRef: React.RefObject<HTMLDivElement>,
+    isMobile: boolean,
+    setMobileView: React.Dispatch<React.SetStateAction<string>>
 }) => {
     const { username = "", status = "", onlineStatus = 0, selectedAvatar = 0 } = userData || {};
     const { connectedUsers } = useUserData();
@@ -31,6 +36,11 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
 
     const handlePublicChatClick = () => {
         setActiveChat({ type: "public", range: 0, user: null });
+        if (isMobile) { setMobileView('chat') } else {
+            if (chatWindowRef.current) {
+                chatWindowRef.current.style.display = 'block';
+            }
+        }
         const newConvs: [PublicConversation[], PrivateConversation[]] = [
             conversations[0].map(conv => "room" in conv ? { ...conv, unread: 0 } : conv),
             conversations[1]
@@ -44,8 +54,16 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
         setConversations(newConvs);
     };
 
+    const handleDisconnect = () => {
+        //message de conformation avant de se déconnecter
+        const confirmDisconnect = window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
+        if (confirmDisconnect)
+            disconnect();
+    }
+
     const handlePrivateChatClick = (user: ConnectedUser, id: number) => {
         setActiveChat({ type: "private", range: id, user });
+        if (isMobile) setMobileView('chat');
         const userConv = conversations[1].find(conv => conv.userId === user.uuid);
         if (userConv) {
             setConversations(prev => {
@@ -69,6 +87,8 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
         <DraggableWindow
             className="window glass active chat-window"
             initialPosition={{ left: 10, top: 60 }}
+            isMobile={isMobile}
+            ref={contactsWindowRef}
         >
             <div className="title-bar">
                 <div className="title-bar-text">
@@ -78,7 +98,7 @@ const ContactsWindow = ({ userData, activeChat, conversations, setActiveChat, se
                 <div className="title-bar-controls">
                     <button aria-label="Minimize"></button>
                     <button aria-label="Maximize"></button>
-                    <button aria-label="Close"></button>
+                    <button aria-label="Close" onClick={handleDisconnect}></button>
                 </div>
             </div>
 
