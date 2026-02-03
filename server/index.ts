@@ -11,6 +11,11 @@ const app = express();
 app.set("trust proxy", 1);
 
 const server = http.createServer(app);
+const isProd = process.env.NODE_ENV === "production";
+
+const allowedOrigins = isProd
+    ? ["https://smn-messenger.fourmi.dev", "https://fun.fourmi.dev"]
+    : ["http://localhost:5173", "http://localhost:3000"];
 
 type User = {
     uuid: string;
@@ -24,7 +29,7 @@ type User = {
 
 const io = new Server(server, {
     cors: {
-        origin: ["https://smn-messenger.fourmi.dev", "https://fun.fourmi.dev"],
+        origin: allowedOrigins,
         methods: ["GET", "POST"],
     },
 });
